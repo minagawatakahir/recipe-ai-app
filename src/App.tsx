@@ -4,6 +4,7 @@ import { useRecipes } from './hooks/useRecipes';
 import { RecipeForm } from './components/RecipeForm';
 import { RecipeDisplay } from './components/RecipeDisplay';
 import { RecipeList } from './components/RecipeList';
+import { LoadingSpinner } from './components/LoadingSpinner';
 import './App.css';
 
 type AppView = 'home' | 'generated-recipe' | 'saved-recipes' | 'recipe-detail';
@@ -67,6 +68,9 @@ function App() {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-orange-50 to-yellow-50">
+      {/* Loading Spinner */}
+      {loading && <LoadingSpinner />}
+      
       {/* Navigation */}
       <nav className="bg-white shadow-md sticky top-0 z-10">
         <div className="max-w-6xl mx-auto px-4 py-4 flex justify-between items-center">
