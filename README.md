@@ -1,46 +1,176 @@
-# Getting Started with Create React App
+# Recipe AI Assistant 🍳
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+料理のレシピをAIに考案してもらい、気に入ったレシピを保存・管理できるWebアプリケーションです。
 
-## Available Scripts
+## 機能
 
-In the project directory, you can run:
+### ✨ 主要機能
+- **AIレシピ生成**: OpenAI APIを使用して、材料や条件からレシピを自動生成
+- **レシピ保存**: お気に入りのレシピをローカルストレージに保存
+- **レシピ管理**: 保存したレシピの閲覧、編集、削除
+- **検索機能**: キーワード検索、難易度・調理時間でのフィルタリング
 
-### `npm start`
+## 技術スタック
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+- **React 18** + **TypeScript**
+- **Tailwind CSS 3** - スタイリング
+- **OpenAI API** - レシピ生成
+- **localStorage** - データ保存
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+## セットアップ
 
-### `npm test`
+### 1. 依存関係のインストール
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+```bash
+npm install
+```
 
-### `npm run build`
+### 2. 環境変数の設定
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+`.env` ファイルを作成し、OpenAI APIキーを設定してください：
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+```bash
+cp .env.example .env
+```
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+`.env` ファイルを編集：
 
-### `npm run eject`
+```env
+REACT_APP_OPENAI_API_KEY=your_openai_api_key_here
+```
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+> **注意**: OpenAI APIキーは [OpenAI Platform](https://platform.openai.com/api-keys) から取得できます。
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+### 3. アプリの起動
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+```bash
+npm start
+```
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+ブラウザで `http://localhost:3000` を開いてください。
 
-## Learn More
+## 使い方
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+### 📝 レシピを生成する
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+1. 「新規レシピ」タブをクリック
+2. 材料を入力（カンマ区切り）
+   - 例: `トマト, 玉ねぎ, にんにく, パスタ`
+3. 料理の種類、難易度、調理時間を選択（オプション）
+4. 「レシピを生成」ボタンをクリック
+5. 生成されたレシピを確認
+6. 気に入ったら「保存する」ボタンで保存
+
+### 📚 保存したレシピを管理する
+
+1. 「保存済み」タブをクリック
+2. レシピ一覧から見たいレシピをクリック
+3. 詳細を確認、必要に応じて削除
+
+### 🔍 レシピを検索する
+
+1. 「保存済み」タブで検索ボックスにキーワードを入力
+2. レシピ名、材料、料理の種類で検索可能
+
+## プロジェクト構造
+
+```
+recipe-ai-app/
+├── src/
+│   ├── components/         # UIコンポーネント
+│   │   ├── RecipeForm.tsx       # レシピ生成フォーム
+│   │   ├── RecipeDisplay.tsx    # レシピ表示
+│   │   └── RecipeList.tsx       # レシピ一覧
+│   ├── hooks/             # カスタムフック
+│   │   └── useRecipes.ts        # レシピ管理ロジック
+│   ├── services/          # ビジネスロジック
+│   │   ├── openai.ts           # OpenAI API連携
+│   │   └── localStorage.ts     # ローカルストレージ管理
+│   ├── types/             # TypeScript型定義
+│   │   └── Recipe.ts           # レシピ関連の型
+│   ├── App.tsx            # メインコンポーネント
+│   ├── App.css            # アプリケーションスタイル
+│   ├── index.tsx          # エントリーポイント
+│   └── index.css          # グローバルスタイル
+├── public/
+├── .env.example           # 環境変数テンプレート
+├── package.json
+├── tailwind.config.js     # Tailwind CSS設定
+├── postcss.config.js      # PostCSS設定
+└── README.md
+```
+
+## 開発
+
+### ビルド
+
+```bash
+npm run build
+```
+
+ビルド成功後、`build/` フォルダに最適化されたプロダクションビルドが生成されます。
+
+### テストの実行
+
+```bash
+npm test
+```
+
+### リンティング
+
+```bash
+npm run lint
+```
+
+## 実装済み機能
+
+✅ React + TypeScript プロジェクトセットアップ  
+✅ OpenAI API連携によるレシピ生成  
+✅ ローカルストレージへのレシピ保存  
+✅ レシピ一覧表示・詳細表示  
+✅ レシピ削除機能  
+✅ キーワード検索機能  
+✅ Tailwind CSSによるレスポンシブデザイン  
+✅ エラーハンドリング  
+
+## 今後の機能追加予定
+
+- [ ] レシピ編集機能（ユーザーメモの追加・編集）
+- [ ] 難易度・調理時間でのフィルタリング強化
+- [ ] ユーザー認証機能
+- [ ] クラウド同期
+- [ ] 栄養情報の表示
+- [ ] レシピ共有機能
+- [ ] ダークモード
+- [ ] レシピ印刷機能
+- [ ] CSV/PDFエクスポート
+
+## トラブルシューティング
+
+### ビルドエラー
+
+Tailwind CSSのエラーが出る場合:
+
+```bash
+npm install -D tailwindcss@3 postcss autoprefixer
+```
+
+### APIエラー
+
+OpenAI APIキーが正しく設定されていることを確認してください:
+
+1. `.env` ファイルが存在するか確認
+2. `REACT_APP_OPENAI_API_KEY` が正しく設定されているか確認
+3. APIキーが有効か確認
+
+## ライセンス
+
+MIT
+
+## 作者
+
+Recipe AI Assistant Team
+
+---
+
+**仕様書**: [Confluence - 料理レシピ考案・保存アプリ仕様書](https://atlas-one-yokohamademo-01.atlassian.net/wiki/spaces/~5baad3e41fa6b77b16764511/pages/197033986/-)
