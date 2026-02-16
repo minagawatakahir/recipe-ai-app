@@ -40,6 +40,8 @@ REACT_APP_OPENAI_API_KEY=your_openai_api_key_here
 ```
 
 > **注意**: OpenAI APIキーは [OpenAI Platform](https://platform.openai.com/api-keys) から取得できます。
+> 
+> **詳細な設定手順**: [OpenAI API キー設定ガイド](./docs/SETUP_API_KEY.md) を参照してください。
 
 ### 3. アプリの起動
 
