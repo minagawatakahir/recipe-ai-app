@@ -21,6 +21,7 @@ function App() {
     error,
     generateRecipe,
     saveRecipe,
+    updateRecipe,
     deleteRecipe,
     searchRecipes,
   } = useRecipes();
@@ -62,6 +63,20 @@ function App() {
       }
     } catch (err) {
       const errorMsg = err instanceof Error ? err.message : 'レシピの削除に失敗しました';
+      setErrorMessage(errorMsg);
+    }
+  };
+
+  const handleUpdateRecipe = (id: string, updates: Partial<Recipe>) => {
+    try {
+      updateRecipe(id, updates);
+      setErrorMessage(null);
+      // 現在表示中のレシピを更新
+      if (selectedRecipe?.id === id) {
+        setSelectedRecipe({ ...selectedRecipe, ...updates });
+      }
+    } catch (err) {
+      const errorMsg = err instanceof Error ? err.message : 'レシピの更新に失敗しました';
       setErrorMessage(errorMsg);
     }
   };
@@ -149,6 +164,7 @@ function App() {
             <RecipeDisplay
               recipe={selectedRecipe}
               onSave={() => {}}
+              onUpdate={handleUpdateRecipe}
               onBack={() => setCurrentView('saved-recipes')}
               saved={true}
             />

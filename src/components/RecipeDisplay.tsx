@@ -1,10 +1,11 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Recipe } from '../types/Recipe';
 
 interface RecipeDisplayProps {
   recipe: Recipe;
   onSave: (recipe: Recipe) => void;
   onBack: () => void;
+  onUpdate?: (id: string, updates: Partial<Recipe>) => void;
   saved?: boolean;
 }
 
@@ -12,12 +13,23 @@ export const RecipeDisplay: React.FC<RecipeDisplayProps> = ({
   recipe, 
   onSave, 
   onBack,
+  onUpdate,
   saved = false 
 }) => {
+  const [isEditing, setIsEditing] = useState(false);
+  const [editedNotes, setEditedNotes] = useState(recipe.userNotes || '');
+
   const difficultyLabels = {
     beginner: '初心者',
     intermediate: '中級者',
     advanced: '上級者',
+  };
+
+  const handleSaveNotes = () => {
+    if (onUpdate && recipe.id) {
+      onUpdate(recipe.id, { userNotes: editedNotes });
+      setIsEditing(false);
+    }
   };
 
   return (
@@ -87,11 +99,60 @@ export const RecipeDisplay: React.FC<RecipeDisplayProps> = ({
         </ol>
       </div>
 
-      {saved && recipe.savedAt && (
+      {saved && (
         <div className="mt-6 pt-6 border-t border-gray-200">
-          <p className="text-sm text-gray-500">
-            保存日時: {new Date(recipe.savedAt).toLocaleString('ja-JP')}
-          </p>
+          {recipe.savedAt && (
+            <p className="text-sm text-gray-500 mb-4">
+              保存日時: {new Date(recipe.savedAt).toLocaleString('ja-JP')}
+            </p>
+          )}
+          
+          <div className="bg-blue-50 rounded-lg p-4">
+            <div className="flex justify-between items-center mb-3">
+              <h3 className="text-lg font-bold text-gray-800">ユーザーメモ</h3>
+              {!isEditing && (
+                <button
+                  onClick={() => setIsEditing(true)}
+                  className="px-3 py-1 bg-blue-500 hover:bg-blue-600 text-white text-sm font-semibold rounded transition duration-200"
+                >
+                  編集
+                </button>
+              )}
+            </div>
+
+            {isEditing ? (
+              <div className="space-y-3">
+                <textarea
+                  value={editedNotes}
+                  onChange={(e) => setEditedNotes(e.target.value)}
+                  placeholder="ここにメモを入力してください..."
+                  className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 resize-none"
+                  rows={4}
+                />
+                <div className="flex gap-2">
+                  <button
+                    onClick={handleSaveNotes}
+                    className="px-4 py-2 bg-green-500 hover:bg-green-600 text-white font-semibold rounded transition duration-200"
+                  >
+                    保存
+                  </button>
+                  <button
+                    onClick={() => {
+                      setEditedNotes(recipe.userNotes || '');
+                      setIsEditing(false);
+                    }}
+                    className="px-4 py-2 bg-gray-400 hover:bg-gray-500 text-white font-semibold rounded transition duration-200"
+                  >
+                    キャンセル
+                  </button>
+                </div>
+              </div>
+            ) : (
+              <p className="text-gray-700 whitespace-pre-wrap">
+                {editedNotes || 'メモはまだ追加されていません。'}
+              </p>
+            )}
+          </div>
         </div>
       )}
     </div>
